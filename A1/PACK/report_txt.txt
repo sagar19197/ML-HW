@@ -1,0 +1,204 @@
+Name - Sagar Suman
+Roll No. 2019197
+ML Assignment 1 Report
+
+-----------------------------
+REMOVE THIS -
+
+plots
+results
+analysis -
+	 assumptions, 
+	methodology,
+	preprocessng,
+	steps to execute
+conclusions
+---------------------------------------
+
+Programming Questions -
+
+Answer 1 - Basic operation + Data Visualization 
+
+Part 1 - 
+In this part we were asked to download the IRIS dataset. There are 5 columns in dataset. We have added the respective column names in the begining of iris.data file.
+We have used columns names as given in iris.names file. Then we loaded the dataset with help of pandas library. For inspecting columns information
+we have used different functions of pandas library and printed the result.
+We got following information for each columns.
+<!-- fig 1 -->
+
+From this, we can observe the following information about 5 columns. 
+There are 150 samples in this dataset. 
+There are no null values in any columns, each column have 150 samples (i.e. each have count = 150).
+First 4 columns are of floating data type. Range of each of these four columns are also presented above. 
+Last column is of type string. It have three classes - Iris-setosa, Iris-virginica and Iris-versicolor. 
+Each class of last column is present in equal proportion in the dataset (i.e each have count = 50).
+
+Now plotting the histograms for continuos valued output we get following result.
+<!-- fig 2 -->
+ 
+And plotting the bar graph for last column, we get the following result.
+<!-- fig 3 -->
+
+Above tells us that data is uniformly distributed between these three classes.
+
+For running the python code :-  
+File named Q1p1.py can be executed for this part. 
+Data file - iris.data should be modified as per above instruction, and should be placed in same folder as code.
+
+
+Part 2 -
+In this part we were asked to download MNIST dataset. After downloading, we extracted the four files.
+In the code, we have used convert_from_file() function of idx2numpy library to load the data in form of numpy arrays. 
+We then have four numpy arrays as - X_train, y_train, X_test, y_test.
+From the dataset, we found that we have 60,000 samples for training and 10,000 samples for testing. 
+Each sample of X_test and X_train is of dimension 28 X 28, representing one digit. Y_test and y_train represent corresponding label of digit.
+In the first part, we have to visualize the two random images.  From the training set, we have two random images are as follows -
+
+<!-- fig 4 --> <fig -5->
+
+Next, we have reduce the data dimension of training data to 2 using TSNE (t-distributed stochastic neighbour embedding). 
+X_train have 60,000 samples in which each sample is of 28 x 28. It can be viewed as 60,000 samples in which each sample is of dimension 784 x 1. 
+It can be achieved by using reshape function from numpy library. Now our task is to reduce this 784 features to 2 features.
+Using TSNE we can achieve this. As TSNE, takes lot of time to execute, we have reduced the training size from 60.000 to10,000 samples. 
+Out of these 10,000 samples there are 1000 samples from each of 10 digits (i.e 10 x 1000 = 10,000 samples).
+These 10,000 samples are chosen randomly from the dataset. Then with the help of sklearn's TSNE we have reduced the dimension to 2.
+Scatter plot result of TSNE out is as follows -
+
+<!--fig 6 -->
+Comment on separability of resulting data - 
+From this we can see that TSNE is very nicely capturing the distinction between samples of each digit. 
+Majority of digits are separable like 0,6,2 etc. There are also some overlaps in samples of digits like 4 and 9, 3 and 5.
+But overall wise TSNE can be considered to be good dimensionality reduction technique because even coming from 784 dimensions to 2, we can easily seperate out 6 - 7 digit.
+
+For running python code - 
+File named Q1p2.py can be executed for this part.
+Data file - files from MNIST site should be downloaded and extracted then should be placed in same folder as code. 
+
+
+Answer 2 - Linear Regression - 
+
+In this question, we were asked to download Abalone Dataset.
+There are 9 columns in dataset. We firstly add the column names in Dataset.data file. We used columns names mentioned in Dataset.spec file.
+Then using pandas, we have red the dataset. We are using first 8 columns as input variables (X) to predict the last column (y).
+Out of 8 input features, 1st feature is of type string and rest 7 features are of floating data type. 
+1st column represents sex, which have only three classes {M,F,I}. We converted this column to float by mapping -
+M to 0
+F to 1 
+and I to 2.
+
+After that, we splitted our data set into 90% (for training + validation)[X_train , y_train] and 10% (for testing)[X_test, y_test] using scikit-learn.
+We then visualize various attributes of X_train and we get the following graph.
+
+<fig-7>
+
+We can see some of attributes are not scaled properly, so it requires normalization. 
+Morever. Sex is almost equally distributed among M,F and I. M have slighly more count.
+
+We have defined function for gradient descent in which we have implemented its functionality from scratch.
+We have also customized this function to take into account for L1 and L2 regularization. 
+In the function we are implementing following function -
+	<gradient decsent formula>
+
+If it is case of normal linear regression, we will use above.
+For L1 regularization we are adding following in formula- 
+	if (w>0) : we are adding (+lamda)
+	if (w<0) : we adding (-lambda)
+And if the type of regularization is L2 then we are adding 2*lambda in formula.
+where lambda is hyperparameter for regularization.
+
+part a) -
+Now, lets move to first part -
+1. Firstly, we have used KFold implementaion of scikit-learn to do 5 splits.
+2. For each of 5 splits, we are using 4 splits for training and 1 spilt as validation set.
+3. Now, we will perform following for each of val set -
+	3.1. In traing set we are performing normalization, using formula : X -min/max 
+	3.2. We then store the min, max value of above.
+	3.3. We intilize our parameters as 9 X 1 vector equal to 1. ( We have also added x0 = 1 in X-train).
+	3.4. We decide some learning rate and no. of iterations and perform gradient descent to minimize parameter.
+	3.5. We get some parameters from gradient descent.
+	3.6. We normalize validation set using values of step 3.2. and formula 3.1.
+	3.7. We calculate the RMSE on validation set and see the result.
+
+We use step 3 to tune the hyperparametes, to get minimum avg RMSE on val sets.
+FInally, we come to conclusion that
+learning rate = 0.2
+and iterations = 200.
+
+For above iteration vs RMSE graph is as follows -
+
+<fig 8>
+
+and RMSE values on validation set is as follows -
+ 
+<fig 11>
+
+
+part b) - 
+In this we follow the same procedure as part a. In step 3.4 use gradient descent of L1 and L2 respectively.
+At the end of tuning, we come to conclusion that 
+
+For L1 -
+learning rate = 0.2
+iterations = 200
+and regularization parameter(lambda) = 0.01
+
+For L2 -
+learning rate = 0.2
+iteration = 200
+and regularization prameter(lambda = 0.005
+
+
+For L1 iteration vs RMSE graph is as follows -
+
+<fig 9>
+
+and RMSE values on validation set is as follows -
+ 
+<fig 11>
+ 
+For L2 iteration vs RMSE graph is as follows -
+
+<fig 10>
+
+and RMSE values on validation set is as follows -
+ 
+<fig 11>
+ 
+part c)-
+Using parameters founded out in part(a) and part(b), we then trained the models on 90% data (train+val)
+and test them on testing set.
+We got the following RMSE values - 
+<fig 11>
+We can see that Linear regression +L2 is performing slighly better with these set of parameters.
+
+part d) - 
+In this part, we perform the same steps as part(a) and part(b), but here we will use inbuilt libraries to train the models.
+Inbuilt sklearn linear regression does not require any parameters.
+By testing on validation set, we set 
+parameter for lasso regression as 0.01 and
+parameter for ridge regression as 0.05.
+
+This is result of three models on validation set -
+<fig 11>
+
+With parameters describe earlier, we then trained the model on validation set and tested it on testing set.
+We got following RMSE values -
+<fig 11>.
+We can see that Only linear regression and linear regression+L2 is almost giving same RMSE values.
+Comparing it with our above result part(d), we can see that there is slight difference in decimals. And inbuilt functions are slightly giving better RMSE values.
+This could be due to implementation of inbuilt functions. As they implement closed form solution and we training with gradient descent.
+Also we are only doing 200 iterations in gradient descent.
+
+part d)- 
+Now for implementing closed form solution, we used following formula-
+<closed form expression>
+We get following RMSE value on validation sets -
+<fig12>
+
+Note that, result we got almost same result as we got by using scikit-learn linear regression.
+This is because of the fact that scikit-learn implements closed form solution in its implementations. 
+
+For RUNNING python code -
+Q2.py file should be executed for this part.
+Dataset - should be manipulated as discussed at start of this question and should be placed in same folder as code.
+There are functions calls at the end of the file Q2.py, for each part. Uncommenting any part will not run that part.
